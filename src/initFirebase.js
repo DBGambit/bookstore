@@ -1,16 +1,15 @@
 import firebase from "firebase/app";
+import 'firebase/auth';
 import 'firebase/database';
 
-
-
 const firebaseConfig = {
-    apiKey: "AIzaSyDW5xCoVHzl3tKkyuGNNJBcrCnNSjtGCpk",
-    authDomain: "bookstore-f3713.firebaseapp.com",
-    databaseURL: "https://bookstore-f3713-default-rtdb.firebaseio.com",
-    projectId: "bookstore-f3713",
-    // storageBucket: "bookstore-f3713.appspot.com",
-    // messagingSenderId: "1098879020073",
-    // appId: "1:1098879020073:web:09f43086d4cf951b1bc038",
+    apiKey: process.env.REACT_APP_APIKEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_FIREBASE_DB_URL,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    // storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    // messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
     // measurementId: "G-PQMBF567ZP"
   };
 
@@ -21,5 +20,6 @@ const firebaseConfig = {
   };
 
   initFirebase();
+
 
   export { firebase }

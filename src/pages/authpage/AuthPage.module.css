@@ -1,0 +1,25 @@
+.AuthDiv {
+    border: 1px solid black;
+    width: 30vw;
+    height: 50vh;
+    margin: auto;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px black;
+    text-align: center;
+}
+
+.AuthDiv button {
+    display: block;
+    border: 1px solid black;
+    margin: auto;
+    margin-top: 5%;
+}
+
+.Form {
+    border: 1px solid black;
+}
+
+
+.Form input {
+    width: 50%;
+}

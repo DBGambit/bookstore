@@ -5,12 +5,14 @@ import { requestGetBooks, requestDeleteBook, requestAddBook, requestUpdateBook }
 export function* handleGetBooks(action) {
     try {
         const res = yield call(requestGetBooks);
-        console.log(res)
-        const books = Object.keys(res.data).reduce((a,b) => {
-            a.push({id: b, ...res.data[b]})
-            return a
-        }, [])
-        yield put(setBooks(books))
+        if (res && res.status === 200) {
+            console.log(res)
+            const books = Object.keys(res.data).reduce((a,b) => {
+                a.push({id: b, ...res.data[b]})
+                return a
+            }, [])
+            yield put(setBooks(books))
+        }
     }catch(err) {
         console.log(err)
     }
@@ -18,8 +20,10 @@ export function* handleGetBooks(action) {
 
 export function* handleDeleteBook(action) {
     try {
-        yield call(() => requestDeleteBook(action.payload))
-        yield put(deleteBook(action.payload))
+        const res = yield call(() => requestDeleteBook(action.payload))
+        if (res && res.status === 200) {
+            yield put(deleteBook(action.payload))
+        }
     }catch(err) {
         console.log(err)
     }
@@ -27,13 +31,17 @@ export function* handleDeleteBook(action) {
 
 export function* handleAddBook(action) {
     try {
-        yield call(() => requestAddBook(action.payload))
-        const res = yield call(requestGetBooks)
-        const books = Object.keys(res.data).reduce((a,b) => {
-            a.push({id: b, ...res.data[b]})
-            return a
-        }, [])
-        yield put(setBooks(books))
+        const addBookRes = yield call(() => requestAddBook(action.payload))
+        if (addBookRes && addBookRes.status === 200) {
+            const res = yield call(requestGetBooks)
+            if (res && res.status === 200) {
+                const books = Object.keys(res.data).reduce((a,b) => {
+                    a.push({id: b, ...res.data[b]})
+                    return a
+                }, [])
+                yield put(setBooks(books))
+            }
+        }
     }catch(err) {
         console.log(err)
     }
