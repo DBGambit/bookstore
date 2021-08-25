@@ -12,4 +12,3 @@ export function requestBookOrder(user, book, quantity) {
         data
     })
 }
-

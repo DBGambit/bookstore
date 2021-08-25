@@ -5,7 +5,7 @@ import { signOut } from "../../redux/ducks/usersSlice";
 
 import { makingOrder } from "../../redux/ducks/ordersSlice";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const HomePage = (props) => {
     const dispatch = useDispatch()
@@ -13,10 +13,18 @@ const HomePage = (props) => {
     const currentUser = useSelector(state => state.users.currentUser)
 
     console.log('books', books)
+    const history = useHistory()
 
     useEffect(() => {
         dispatch(getBooks())
     }, [])
+
+    const bookCardClickHandler = (book) => {
+        history.push({
+            pathname: `/book/${book.id}`,
+            state: {book}
+        })
+    }
 
     return (
         <>
@@ -37,9 +45,19 @@ const HomePage = (props) => {
                             <p>{book.title}</p>
                             <p>{book.writer}</p>
                             <p>{book.price}</p>
+                            
+                            {/*<Link to={`/book/${book.id}`} >
+                                <button
+                                    // onClick={() => dispatch(makingOrder({user: currentUser, book, quantity: 5}))}
+                                    // onClick={() => history.push(`/book/${book.id}`)}
+                                >see more
+                                </button>
+                            </Link>*/}
                             <button
-                                onClick={() => dispatch(makingOrder({user: currentUser, book, quantity: 5}))}
-                                disabled={!currentUser}>Buy
+                                // onClick={() => dispatch(makingOrder({user: currentUser, book, quantity: 5}))}
+                                // onClick={() => history.push(`/book/${book.id}`)}
+                                onClick={() => bookCardClickHandler(book)}
+                            >see more
                             </button>
                         </div>
                     )

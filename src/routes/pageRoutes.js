@@ -5,6 +5,7 @@ import { adminIds } from '../pages/authpage/adminIds';
 import HomePage from '../pages/homepage/HomePage';
 import AdminPage from '../pages/adminpage/AdminPage';
 import AuthPage from '../pages/authpage/AuthPage';
+import BookDetailPage from '../pages/bookdetailpage/BookDetailPage';
 
 const Routes = (props) => {
     const currentUser = useSelector(state => state.users.currentUser)
@@ -13,7 +14,8 @@ const Routes = (props) => {
         <Switch>
             <Route exact path='/admin' children={ currentUser && currentUser.isAdmin && adminIds.includes(currentUser.localId) ?  <AdminPage/> : () => <h3>You must be admin to view this page</h3>} />
             <Route exact path='/' children={<HomePage/>} />
-            <Route patch='./auth' children={<AuthPage />} />
+            <Route path='/auth' children={<AuthPage />} />
+            <Route path='/book/:id' children={<BookDetailPage />} />
         </Switch>
     )
 }
