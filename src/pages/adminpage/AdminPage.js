@@ -19,6 +19,8 @@ const AdminPage = (props) => {
     console.log('currentBook', currentBook)
     console.log('base64', fileBase64)
 
+    const currentUser = useSelector(state => state.users.currentUser)
+    console.log('admin page cu', currentUser)
     const books = useSelector(state => state.books)
     console.log('books adminPage', books)
     const dispatch = useDispatch()
@@ -29,6 +31,7 @@ const AdminPage = (props) => {
     const genre = useRef('')
     const count = useRef('')
     const isbn = useRef('')
+    const price = useRef('')
 
     const addBookHandler = (e) => {
         e.preventDefault()
@@ -39,15 +42,17 @@ const AdminPage = (props) => {
             genre: genre.current.value,
             count: count.current.value,
             isbn: isbn.current.value,
+            price: price.current.value,
             img: fileBase64
         }
-        dispatch(addingBook(newBook))
+        dispatch(addingBook({newBook, idToken: currentUser.idToken}))
         title.current.value = ''
         writer.current.value = ''
         yearPublished.current.value = ''
         genre.current.value = ''
         count.current.value = 0
         isbn.current.value = 0
+        price.current.value = 0
 
         setFileBase64('')
 
@@ -101,6 +106,8 @@ const AdminPage = (props) => {
                         <input type='number' min={0} defaultValue={0} ref={ count } />
                         <label >ISBN</label>
                         <input type='number' min='0' ref={ isbn } />
+                        <label >price(per book)</label>
+                        <input type='number' min='0' ref={ price } />
                         <label >image</label>
                         <input type='file' onChange={(e) => onFileChange(e)} />
                         {
@@ -142,7 +149,7 @@ const AdminPage = (props) => {
                                     <td>
                                         <div style={{display: 'flex', justifyContent: 'space-evenly'}} >
                                             <button
-                                                onClick={() => dispatch(deletingBook(book.id))}
+                                                onClick={() => dispatch(deletingBook({bookId: book.id, idToken: currentUser.idToken}))}
                                             >delete</button>
                                             <button onClick={() => [setShowBookDetail(true), setCurrentBook(book)]} >change</button>
                                         </div>

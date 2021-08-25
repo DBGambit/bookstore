@@ -20,7 +20,8 @@ export function* handleGetBooks(action) {
 
 export function* handleDeleteBook(action) {
     try {
-        const res = yield call(() => requestDeleteBook(action.payload))
+        const {bookId, idToken} = action.payload
+        const res = yield call(() => requestDeleteBook(bookId, idToken))
         if (res && res.status === 200) {
             yield put(deleteBook(action.payload))
         }
@@ -31,7 +32,8 @@ export function* handleDeleteBook(action) {
 
 export function* handleAddBook(action) {
     try {
-        const addBookRes = yield call(() => requestAddBook(action.payload))
+        const { newBook, idToken } = action.payload
+        const addBookRes = yield call(() => requestAddBook(newBook, idToken))
         if (addBookRes && addBookRes.status === 200) {
             const res = yield call(requestGetBooks)
             if (res && res.status === 200) {
@@ -49,8 +51,8 @@ export function* handleAddBook(action) {
 
 export function* handleUpdateBook(action) {
     try {
-        const {id, changes} = action.payload
-        yield call(() => requestUpdateBook(id, changes))
+        const {id, changes, idToken} = action.payload
+        yield call(() => requestUpdateBook(id, changes, idToken))
         const res = yield call(requestGetBooks)
         const books = Object.keys(res.data).reduce((a,b) => {
             a.push({id: b, ...res.data[b]})

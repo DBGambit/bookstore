@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { updatingBook } from '../../../../redux/ducks/booksSlice';
 
@@ -9,6 +9,8 @@ const ChangeBookForm = ({book}) => {
 
     const [fileBase64, setFileBase64] = useState('')
 
+    const currentUser = useSelector(state => state.users.currentUser);
+
     const dispatch = useDispatch()
 
     const title = useRef('')
@@ -16,13 +18,12 @@ const ChangeBookForm = ({book}) => {
     const yearPublished = useRef('')
     const genre = useRef('')
     const count = useRef('')
+    const price = useRef('')
     const isbn = useRef('')
 
 
     const onFileChange = (e) => {
-        // console.log('file changed')
         const file = e.target.files[0]
-        // console.log('choosen file', file)
         encodeToBase64(file)
     }
 
@@ -47,10 +48,11 @@ const ChangeBookForm = ({book}) => {
             genre: genre.current.value,
             count: count.current.value,
             isbn: isbn.current.value,
+            price: price.current.value,
             img: fileBase64
         }
 
-        dispatch(updatingBook({id, changes}))
+        dispatch(updatingBook({id, changes, idToken: currentUser.idToken}))
     }
 
     return (
@@ -69,6 +71,8 @@ const ChangeBookForm = ({book}) => {
                     <input type='number' min={0} defaultValue={book.count} ref={ count } />
                     <label >ISBN</label>
                     <input type='number' min='0' ref={ isbn } defaultValue={book.isbn} />
+                    <label >price</label>
+                    <input type='number' min='0' ref={ price } defaultValue={book.price} />
                     <label >image</label>
                     <input type='file' onChange={(e) => onFileChange(e)} />
                     {

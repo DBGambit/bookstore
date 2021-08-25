@@ -10,26 +10,26 @@ export function requestGetBooks() {
     })
 }
 
-export function requestDeleteBook(id) {
+export function requestDeleteBook(id, idToken) {
     return axios.request({
         method: 'delete',
-        url: `${dbUrl}/books/${id}.json`
+        url: `${dbUrl}/books/${id}.json?auth=${idToken}`
     })
 }
 
-export function requestAddBook(book) {
+export function requestAddBook(book, idToken) {
     return axios.request({
         method: 'post',
-        url: `${dbUrl}/books.json`,
+        url: `${dbUrl}/books.json?auth=${idToken}`,
         data: book
     })
 }
 
-export function requestUpdateBook(id, changes) {
-    console.log('axios', id, changes)
+export function requestUpdateBook(id, changes, idToken) {
+    console.log('token update request', idToken)
     return axios.request({
-        method: 'patch',
-        url: `${dbUrl}/books/${id}.json`,
+        method: 'put',
+        url: `${dbUrl}/books/${id}.json?auth=${idToken}`,
         data: changes
     })
 }

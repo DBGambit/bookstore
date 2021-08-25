@@ -3,6 +3,12 @@ import { handleGetBooks, handleDeleteBook, handleAddBook, handleUpdateBook } fro
 import { getBooks, deletingBook, addingBook, updatingBook } from "../ducks/booksSlice";
 import { handleSignUp, handleSignIn, handleAutoSignIn } from "./handlers/users";
 import { signingUp, signingIn, autoSigningIn } from '../ducks/usersSlice'
+import { makingOrder } from '../ducks/ordersSlice';
+import { handleBookOrder } from './handlers/order';
+
+function* watcherMakeOrder() {
+    yield takeLatest(makingOrder.type, handleBookOrder)
+}
 
 function* watcherAutoSignIn() {
     yield takeLatest(autoSigningIn.type, handleAutoSignIn)
@@ -40,6 +46,7 @@ export default function* rootSaga () {
         watcherUpdateBook(),
         watcherSigningUp(),
         watcherSigningIn(),
-        watcherAutoSignIn()
+        watcherAutoSignIn(),
+        watcherMakeOrder()
     ])
 }

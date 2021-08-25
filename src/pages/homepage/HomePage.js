@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { getBooks } from "../../redux/ducks/booksSlice";
 import { signOut } from "../../redux/ducks/usersSlice";
 
+import { makingOrder } from "../../redux/ducks/ordersSlice";
+
 import { Link } from "react-router-dom";
 
 const HomePage = (props) => {
@@ -34,6 +36,11 @@ const HomePage = (props) => {
                         <div key={book.id} style={{width: '300px', border: '1px solid black'}}>
                             <p>{book.title}</p>
                             <p>{book.writer}</p>
+                            <p>{book.price}</p>
+                            <button
+                                onClick={() => dispatch(makingOrder({user: currentUser, book, quantity: 5}))}
+                                disabled={!currentUser}>Buy
+                            </button>
                         </div>
                     )
                 })
